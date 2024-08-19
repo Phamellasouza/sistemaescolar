@@ -8,6 +8,6 @@
   "routes": [
     { "src": "/sistema", "dest": "/api/index.php" },
     { "src": "/aluno", "dest": "/api/aluno.php" },
-    { "src": "/css", "dest": "/css/style.css" }
+    { "src": "/css", "dest": "/api/css/style.css" }
   ]
 }
