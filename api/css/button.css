@@ -14,3 +14,9 @@
 .button a {
     text-decoration: none;
 }
+
+#acaoExcluir, #acaoExcluir a  {
+    width: 80px;
+    background-color: tomato;
+    border-color: tomato;
+}

@@ -26,13 +26,28 @@ function incluir_aluno(){
 }
 
 function getProximoCodigo($arDadosAlunos){
-    $totalAlunos = count($arDadosAlunos);
 
-    return $totalAlunos + 1;
+    $proximoCodigo = 1;
+    foreach($arDadosAlunos as $aDados){
+        $codigoAtual = $aDados["codigo"];
+
+        if($codigoAtual > $proximoCodigo){
+            $proximoCodigo = $codigoAtual;
+        }
+    }
+
+    if($proximoCodigo == 1){
+        return 1;
+    }
+
+    return $proximoCodigo + 1;
 }
 
 // PROCESSAMENTO DA PAGINA
 // echo "<pre>" . print_r($_POST, true) . "</pre>";return true;
+
+// echo "<pre>" . print_r($_GET, true) . "</pre>";return true;
+
 
 // Verificar se esta setado o $_POST
 if(isset($_POST["ACAO"])){
@@ -42,6 +57,16 @@ if(isset($_POST["ACAO"])){
 
         // Redireciona para a pagina de consulta de aluno
         header('Location: consulta_aluno.php');
+    }
+} else if(isset($_GET["ACAO"])){
+    $acao = $_GET["ACAO"];
+    if($acao == "EXCLUIR"){
+        // excluir_aluno();
+        
+        echo 'Excluindo aluno....';
+
+        // Redireciona para a pagina de consulta de aluno
+        // header('Location: consulta_aluno.php');
     }
 } else {
     // Redireciona para a pagina de consulta de aluno
