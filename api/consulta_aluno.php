@@ -1,9 +1,13 @@
 <?php
 
 function getAcaoExcluirAluno($codigoAluno){
-    $sHTML = "<button id='acaoExcluir' class='button' type='button'>
-        <a href='http://localhost/sistemaescolar/api/cadastrar_aluno.php?ACAO=EXCLUIR&codigo=" . $codigoAluno . "' 
-        target='_blank'>Excluir</a><button>";
+    $sHTML = "<a id='acaoExcluir' href='http://localhost/sistemaescolar/api/cadastrar_aluno.php?ACAO=EXCLUIR&codigo=" . $codigoAluno . "'>Excluir</a>";
+
+    return $sHTML;
+}
+
+function getAcaoAlterarAluno($codigoAluno){
+    $sHTML = "<a id='acaoAlterar' href='http://localhost/sistemaescolar/api/cadastrar_aluno.php?ACAO=ALTERAR&codigo=" . $codigoAluno . "'>Alterar</a>";
 
     return $sHTML;
 }
@@ -37,7 +41,7 @@ $htmlTabelaAlunos .= "  <th>Código</th>";
 $htmlTabelaAlunos .= "  <th>Nome</th>";
 $htmlTabelaAlunos .= "  <th>E-mail</th>";
 $htmlTabelaAlunos .= "  <th>Senha</th>";
-$htmlTabelaAlunos .= "  <th>Ações</th>";
+$htmlTabelaAlunos .= "  <th colspan='2'>Ações</th>";
 $htmlTabelaAlunos .= "</tr>";
 
 $htmlTabelaAlunos .= "</head>";
@@ -73,9 +77,15 @@ foreach($arDadosAlunos as $aDados){
 
     // Adiciona a ação de excluir aluno
     $codigoAluno = $aDados["codigo"];
+
     $htmlTabelaAlunos .= '<td>';
     $htmlTabelaAlunos .= getAcaoExcluirAluno($codigoAluno);
     $htmlTabelaAlunos .= '</td>';
+
+    $htmlTabelaAlunos .= '<td>';
+    $htmlTabelaAlunos .= getAcaoAlterarAluno($codigoAluno);
+    $htmlTabelaAlunos .= '</td>';
+
 
     // FECHAR A LINHA ATUAL
     $htmlTabelaAlunos .= "</tr>";
