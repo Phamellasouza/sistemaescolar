@@ -1,8 +1,8 @@
 <?php
 function alterar_Materia(){
     $codigoMateriaAlterar = $_POST["codigo"];
-    $materia = $_POST["materia"];
-    $turma = $_POST["curso"];
+    $descricao = $_POST["descricao"];
+    $turma = $_POST["turma"];
     
     $dadosMateria = @file_get_contents("materia.json");
     $arDadosMateria = json_decode($dadosMateria, true);
@@ -12,8 +12,8 @@ function alterar_Materia(){
         $codigoAtual = $aDados["codigo"];
 
         if($codigoMateriaAlterar == $codigoAtual){
-            $aDados["materia"] = $materia;
-            $aDados["curso"] = $materia;
+            $aDados["descricao"] = $descricao;
+            $aDados["turma"] = $turma;
         }
 
         $arDadosMateriaNovo[] = $aDados;
@@ -61,7 +61,7 @@ function incluir_Materia(){
     $aDadosMateriaAtual = array();
     $aDadosMateriaAtual["codigo"] = getProximoCodigo($arDadosMateria);
     $aDadosMateriaAtual["descricao"] = $_POST["descricao"];
-    $aDadosMateriaAtual["curso"] = $_POST["curso"];
+    $aDadosMateriaAtual["turma"] = $_POST["turma"];
    
 
     // Pega os dados atuais do aluno e armazena no array que foi lido
@@ -71,7 +71,7 @@ function incluir_Materia(){
     file_put_contents("materia.json", json_encode($arDadosMateria));
 }
 
-function getProximoCodigo($arDadosmateria){
+function getProximoCodigo($arDadosMateria){
     $ultimoCodigo = 0;
     foreach($arDadosMateria as $aDados){
         $codigoAtual = $aDados["codigo"];
@@ -110,7 +110,7 @@ if(isset($_POST["ACAO"])){
         // Redireciona para a pagina de consulta de materia
         header('Location: consulta_materia.php');
     } else if($acao == "ALTERAR"){
-        $codigoAlunoAlterar = $_GET["codigo"];
+        $codigoMateriaAlterar = $_GET["codigo"];
 
         // Redireciona para a pagina de materia
         header('Location: materia.php?ACAO=ALTERAR&codigo=' . $codigoMateriaAlterar);

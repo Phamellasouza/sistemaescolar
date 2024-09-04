@@ -1,6 +1,38 @@
 <?php
 require_once("../core/header.php");
 
+function getComboTurma($codigoTurma = false){
+    $arDadosTurma = array();
+    $dadosTurma = @file_get_contents("../turma/turmas.json");
+    if($dadosTurma){
+        // transforma os dados lidos em ARRAY, que estavam em JSON
+        $arDadosTurma = json_decode($dadosTurma, true);
+    }
+
+    $html = '<div style="display:flex;gap:5px;flex-direction:row;">';
+
+    $html .= '  <label for="turma">Turma:</label>';
+    $html .= '  <select id="turma" name="turma">';
+    $html .= '    <option value="0">Selecione</option>';
+
+    //  preencher com php - mais options de ESCOLA
+    foreach($arDadosTurma as $aDados){
+        $selected = "";
+        if($codigoTurma == $aDados["codigo"]){
+            $selected = " selected ";                    
+        }
+
+        $html .= '<option value="'. $aDados["codigo"] .'" ' . $selected .'>' . $aDados["nome"] . '</option>';
+    }
+
+    $html .= '</select>';
+    $html .= '</div>';
+
+    return $html;
+}
+
+
+
 function getDadosMateria($codigoMateriaAlterar){
     $descricao = "";
     $curso="";
@@ -17,7 +49,7 @@ function getDadosMateria($codigoMateriaAlterar){
         if($codigoMateriaAlterar == $codigoAtual){
             $encontrouMateria = true;
             $descricao = $aDados["descricao"];
-            $curso = $aDados["curso"];
+            $curso = $aDados["turma"];
 
             // para a execução do loop
             break;
@@ -56,7 +88,10 @@ if(isset($_GET["ACAO"])){
     }
 }
 
+$comboTurma = getComboTurma($codigo);
+
 $sHTML = '<div> <link rel="stylesheet" href="../css/formulario.css">';
+
 
 // FORMULARIO DE CADASTRO DE Matéria
 $sHTML .= '<h2 style="text-align:center;">Formulário de Matéria</h2>
@@ -67,12 +102,12 @@ $sHTML .= '<h2 style="text-align:center;">Formulário de Matéria</h2>
         <label for="codigo">Código:</label>
         <input type="hidden" id="codigo" name="codigo" value="' . $codigo . '" required>
         <input type="text" id="codigoTela" name="codigoTela" value="' . $codigo . '" disabled>
-
-        <label for="descricao"> descricao:</label>
+        
+        ' .  $comboTurma . '
+        
+        <label for="descricao"> Descrição:</label>
         <input type="text" id="descricao" name="descricao" required value="' . $descricao . '">
 
-        <label for="curso">Curso:</label>
-        <input type="curso" id="curso" name="curso" required value="' . $curso . '">
         <input type="submit" value="Enviar">
     </form>';
 

@@ -1,5 +1,22 @@
 <?php
 
+function getNomeTurma($codigoTurma){    
+    $arDados = array();
+    $dados = @file_get_contents("../turma/turmas.json");
+    if($dados){
+        $arDados = json_decode($dados, true);
+    }
+
+    $nome = "Nome invalido!";
+    foreach($arDados as $aDados){
+        if($aDados["codigo"] == $codigoTurma){
+            $nome = $aDados["nome"];
+        }
+    }
+
+    return $nome;    
+}
+
 function getAcaoExcluirMateria($codigoMateria){
     $sHTML = "<a id='acaoExcluir' href='http://localhost/sistemaescolar/api/materia/cadastrar_materia.php?ACAO=EXCLUIR&codigo=" . $codigoMateria . "'>Excluir</a>";
 
@@ -72,7 +89,10 @@ foreach($arDadosMateria as $aDados){
     // VALORES, ALINHADOS A DIREITA
     $htmlTabelaMateria .= "<td align='center'>" . $aDados["codigo"] . "</td>";
     $htmlTabelaMateria .= "<td>" . $aDados["descricao"] . "</td>";
-    $htmlTabelaMateria .= "<td>" . $aDados["curso"] . "</td>";
+
+    $nomeTurma = getNomeTurma( $aDados["turma"]);
+    $htmlTabelaMateria .= "<td>" . $nomeTurma . "</td>";
+    
 
 
     // Adiciona a ação de excluir Materia
